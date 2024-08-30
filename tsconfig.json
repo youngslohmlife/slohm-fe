@@ -1,28 +1,17 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "declaration": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "esModuleInterop": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "types": ["vite/client", "vite-plugin-svgr/client"],
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "sourceMap": true,
-    "target": "ESNext",
-    "jsx": "react-jsx",
-    "baseUrl": ".",
-    "skipLibCheck": true,
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
+    "module": "esnext",
+    "outDir": "build",
+    "target": "esnext",
+    "jsx": "preserve",
     "noEmit": true,
-    "noFallthroughCasesInSwitch": true
+    "isolatedModules": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["./index.d.ts", "src", "**/*.test.ts", "**/*.test.tsx"],
-  "exclude": ["node_modules", "vendor", "public"],
-  "compileOnSave": false
+  "exclude": ["node_modules"]
 }
