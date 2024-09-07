@@ -132,7 +132,7 @@ export const WBTC = () => {
 
   useEffect(() => {
     void fetchSupply();
-  }, []);
+  }, [fetchSupply]);
 
   setTimeout(() => {
     void fetchSupply();
@@ -288,6 +288,7 @@ export const WBTC = () => {
       } else {
         broadcastedTxs = (await window.unisat.web3.signInteraction(
           interactionParameters
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         )) as any;
       }
 
