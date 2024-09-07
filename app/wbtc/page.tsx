@@ -1,5 +1,5 @@
 import React from "react";
-import { WBTC } from "../components/wbtc";
+import { WBTC } from "@/components/wbtc";
 const Page = () => {
   return (
     <div>

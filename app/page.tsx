@@ -1,6 +1,6 @@
 // import { ROUTER_ADDRESS_REGTEST, wBTC } from "@btc-vision/transaction";
 // import { networks } from "bitcoinjs-lib";
-import { WBTC } from "./components/wbtc";
+import { WBTC } from "@/components/wbtc";
 export default function Home() {
   // const wbtcAddress = new wBTC(networks.regtest).getAddress();
   // const routerAddress = ROUTER_ADDRESS_REGTEST;
