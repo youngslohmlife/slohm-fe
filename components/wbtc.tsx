@@ -19,12 +19,20 @@ import {
   UnisatSigner,
   wBTC as WrappedBitcoin,
 } from "@btc-vision/transaction";
-import * as networks from "bitcoinjs-lib/src/networks";
+import * as networks from "bitcoinjs-lib";
 import { Address } from "@btc-vision/bsi-binary";
 import { FetchUTXOParamsMultiAddress } from "@btc-vision/transaction/src/utxo/interfaces/IUTXO.js";
 
 export const WBTC = () => {
-  /* global BigInt */
+  const [walletAddress, setWalletAddress] = useState<string>("");
+  const [balance, setBalance] = useState<bigint>(0n);
+  const [error, setError] = useState<string>("");
+  const [totalSupply, setSupply] = useState<bigint>(0n);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [wrapAmount, setWrapAmount] = useState<string>("");
+  const [transferTo, setTransferTo] = useState<string>("");
+  const [feedbackMessage, setFeedbackMessage] = useState<string>("");
+  const [feedbackSuccess, setFeedbackSuccess] = useState<boolean>(false);
 
   const API_URL = "https://regtest.opnet.org";
   const provider = new JSONRpcProvider(API_URL);
@@ -32,7 +40,7 @@ export const WBTC = () => {
   const utxoManager = new OPNetLimitedProvider(API_URL);
   const factory = new TransactionFactory();
 
-  const network = networks.regtest;
+  const network = networks.networks.regtest;
   const wrappedBitcoin = new WrappedBitcoin(network);
 
   let contract: IWBTCContract = getContract<IWBTCContract>(
@@ -50,15 +58,6 @@ export const WBTC = () => {
   function convertBTCtoSatoshis(btc: string): bigint {
     return BigInt(Math.floor(Number(btc) * 100000000));
   }
-  const [walletAddress, setWalletAddress] = useState<string>("");
-  const [balance, setBalance] = useState<bigint>(0n);
-  const [error, setError] = useState<string>("");
-  const [totalSupply, setSupply] = useState<bigint>(0n);
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [wrapAmount, setWrapAmount] = useState<string>("");
-  const [transferTo, setTransferTo] = useState<string>("");
-  const [feedbackMessage, setFeedbackMessage] = useState<string>("");
-  const [feedbackSuccess, setFeedbackSuccess] = useState<boolean>(false);
 
   const handleWalletConnect = async () => {
     // Logic to connect wallet
@@ -100,6 +99,8 @@ export const WBTC = () => {
     };
     return properties.balance || 0n;
   }
+
+  console.log(contract, "contract");
 
   async function fetchSupply() {
     const totalSupply = await contract.totalSupply();
