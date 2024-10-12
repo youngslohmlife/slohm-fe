@@ -8,7 +8,7 @@ This project is a Next.js application that integrates the `opnet` package, provi
 
 Ensure you have the following installed on your development environment:
 
-- Node.js (v16 or higher)
+- Node.js (v18 or higher)
 - npm or yarn
 
 ### Installation
@@ -16,7 +16,7 @@ Ensure you have the following installed on your development environment:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/impredmet/opnet-nextjs.git
+   git clone https://github.com/youngslohmlife/slohm-fe
    cd opnet-nextjs
    ```
 

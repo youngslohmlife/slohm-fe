@@ -3,8 +3,7 @@ import { networks } from "bitcoinjs-lib";
 import { NextResponse } from "next/server";
 import { getContract, IOP_20Contract, JSONRpcProvider, OP_20_ABI } from "opnet";
 
-// To go to this page, visit /api/getwBTC
-export async function GET() {
+export const btcTest = async () => {
   const wbtcAddress = new wBTC(networks.regtest).getAddress();
 
   const provider = new JSONRpcProvider("https://regtest.opnet.org");
@@ -35,11 +34,11 @@ export async function GET() {
 
   if ("error" in decimals) return NextResponse.json({ error: decimals.error });
 
-  return NextResponse.json({
+  return {
     wbtcName: name.decoded[0],
     wbtcAddress,
     wbtcDecimals: decimals.decoded[0],
     network: "regtest",
     // balance: balanceExample.balance
-  });
-}
+  };
+};

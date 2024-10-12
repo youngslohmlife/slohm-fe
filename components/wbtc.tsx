@@ -22,6 +22,7 @@ import {
 import * as networks from "bitcoinjs-lib";
 import { Address } from "@btc-vision/bsi-binary";
 import { FetchUTXOParamsMultiAddress } from "@btc-vision/transaction/src/utxo/interfaces/IUTXO.js";
+import { convertSatoshisToBTC, convertBTCtoSatoshis } from "@/utils/convert";
 
 export const WBTC = () => {
   const [walletAddress, setWalletAddress] = useState<string>("");
@@ -48,16 +49,6 @@ export const WBTC = () => {
     WBTC_ABI,
     provider
   );
-
-  function convertSatoshisToBTC(satoshis: bigint): string {
-    return (Number(satoshis || 0n) / 100000000)
-      .toFixed(7)
-      .replace(/([0-9]+(\.[0-9]+[1-9])?)(\.?0+$)/, "$1");
-  }
-
-  function convertBTCtoSatoshis(btc: string): bigint {
-    return BigInt(Math.floor(Number(btc) * 100000000));
-  }
 
   const handleWalletConnect = async () => {
     // Logic to connect wallet
@@ -91,6 +82,7 @@ export const WBTC = () => {
   };
 
   async function getWBTCBalance(address: Address): Promise<bigint> {
+    console.log(address, "addressgetWBTCBalance");
     const result = await contract.balanceOf(address);
     if ("error" in result) throw new Error("Something went wrong");
 
@@ -100,11 +92,9 @@ export const WBTC = () => {
     return properties.balance || 0n;
   }
 
-  console.log(contract, "contract");
-
   async function fetchSupply() {
     const totalSupply = await contract.totalSupply();
-
+    console.log(totalSupply, "totalSupplyfetchSupply");
     if ("error" in totalSupply) {
       return setError("Something went wrong while fetching the total supply");
     }
@@ -118,6 +108,7 @@ export const WBTC = () => {
   }
 
   async function fetchBalance(address: Address): Promise<void> {
+    console.log(address, "addressfetchBalance");
     if (!address) return setError("Please enter a valid wallet address");
 
     try {
@@ -356,30 +347,7 @@ export const WBTC = () => {
                   </h3>
                 </div>
               )}
-              {/* <form onSubmit={handleSubmit} className="form">
-          <label htmlFor="wallet" className="label">
-            Enter your wallet:
-          </label>
-          <input
-            type="text"
-            id="wallet"
-            value={walletAddress}
-            onChange={handleChange}
-            className="input"
-            placeholder="Enter Bitcoin wallet address"
-          />
-          <button type="submit" className="button">
-            Check Balance
-          </button>
-        </form> */}
-              {/*<br />
-                 <button
-                    onClick={handleWrapBitcoin}
-                    className="purple-button">
-                    Wrap Your Bitcoin
-                </button>
-                <br /> */}
-              <br />
+
               <button
                 onClick={handleWrapBitcoin}
                 className="bg-purple-600 text-white p-2 rounded-lg"
