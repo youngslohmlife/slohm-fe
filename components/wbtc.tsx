@@ -7,6 +7,7 @@ import {
   JSONRpcProvider,
   UTXO,
   WBTC_ABI,
+  IOP_20Contract,
 } from "opnet";
 
 import {
@@ -19,6 +20,7 @@ import {
   UnisatSigner,
   wBTC as WrappedBitcoin,
 } from "@btc-vision/transaction";
+
 import * as networks from "bitcoinjs-lib";
 import { Address } from "@btc-vision/bsi-binary";
 import { FetchUTXOParamsMultiAddress } from "@btc-vision/transaction/src/utxo/interfaces/IUTXO.js";
@@ -44,7 +46,7 @@ export const WBTC = () => {
   const network = networks.networks.regtest;
   const wrappedBitcoin = new WrappedBitcoin(network);
 
-  let contract: IWBTCContract = getContract<IWBTCContract>(
+  let contract: IOP_20Contract = getContract<IOP_20Contract>(
     wrappedBitcoin.getAddress(),
     WBTC_ABI,
     provider
@@ -73,6 +75,9 @@ export const WBTC = () => {
         await fetchBalance(accounts[0]);
       }
     } else {
+      alert(
+        "Unsupported wallet extension detected. Please install Unisat or Xverse."
+      );
       setFeedbackMessage(
         "Unsupported wallet extension detected. Please install Unisat or Xverse."
       );
@@ -82,7 +87,6 @@ export const WBTC = () => {
   };
 
   async function getWBTCBalance(address: Address): Promise<bigint> {
-    console.log(address, "addressgetWBTCBalance");
     const result = await contract.balanceOf(address);
     if ("error" in result) throw new Error("Something went wrong");
 
@@ -94,7 +98,6 @@ export const WBTC = () => {
 
   async function fetchSupply() {
     const totalSupply = await contract.totalSupply();
-    console.log(totalSupply, "totalSupplyfetchSupply");
     if ("error" in totalSupply) {
       return setError("Something went wrong while fetching the total supply");
     }
@@ -317,9 +320,8 @@ export const WBTC = () => {
     <div className="flex justify-center w-full">
       <div className="container w-full mt-4">
         <div className="grid grid-cols-12 gap-2 w-full">
-          <div className="col-span-12 border rounded-lg shadow-lg p-4">
-            <h1 className="text-2xl font-bold">Saturnfi - Wrapped Bitcoin</h1>
-
+          <div className="col-span-12 p-4">
+            <h1 className="text-2xl font-bold">SLOHM</h1>
             <h3 className="text-xl font-bold">
               Total Supply:{" "}
               {totalSupply !== null
@@ -328,7 +330,7 @@ export const WBTC = () => {
               wBTC
             </h3>
           </div>
-          <div className="col-span-12 border rounded-lg shadow-lg p-4">
+          <div className="col-span-12 p-4">
             <div>
               <h2 className="text-2xl font-bold">wBTC Balance Checker</h2>
               <div className="mt-4">
@@ -350,16 +352,16 @@ export const WBTC = () => {
 
               <button
                 onClick={handleWrapBitcoin}
-                className="bg-purple-600 text-white p-2 rounded-lg"
+                className="bg-purple-600 text-white p-2 rounded-lg mt-4"
               >
                 Transfer Wrapped Bitcoin
               </button>
               {balance !== 0n && (
-                <h1 className="balance">
+                <h1 className="balance mt-4">
                   You have {convertSatoshisToBTC(balance)} wBTC
                 </h1>
               )}
-              {error && <p className="error">Error: {error}</p>}
+              {error && <p className="error mt-4">Error: {error}</p>}
 
               {/* Modal */}
               {showModal && (
