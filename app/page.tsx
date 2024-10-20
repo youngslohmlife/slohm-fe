@@ -7,7 +7,7 @@ export default function Home() {
   // const network = "regtest";
   // console.log(wbtcAddress);
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center text-2xl text-center gap-10 bg-black text-white">
+    <main className="flex flex-col items-center justify-center text-2xl text-center">
       {/* <p>wBTC Address: {wbtcAddress}</p>
       <p>Router Address: {routerAddress}</p>
       <p>Network: {network}</p> */}
